@@ -133,26 +133,39 @@
             nearest = sys.nearest(_mouseP)
 
             if (!nearest.node) return false
-            if (nearest.distance > 50) return false
+            
+            var popup = $( "#popup" )
+            
+            if (nearest.distance > 50) {
+                if(popup) {
+                    popup.remove()
+                }
+                return false
+            }
 
-            var desc = nearest.node.data.description
-            var name = nearest.node.name+"desc"
-            if (!desc) return false
-            var w = ctx.measureText(""+desc).width + 10
+            if(!popup) {
 
-            var container = $( "#twiceviz" )[0]
-            var popup = $(document.createElement('div'))[0];
-            popup.className = 'popup';
-            popup.style.position = 'absolute';
-            popup.style.display = 'none';
-            container.appendChild(popup);
+                var desc = nearest.node.data.description
+                var name = nearest.node.name+"desc"
+                if (!desc) return false
+                var w = ctx.measureText(""+desc).width + 10
+
+                var container = $( "#twiceviz" )[0]
+                popup = $(document.createElement('div'))[0];
+                popup.className = 'popup';
+                popup.style.position = 'absolute';
+                popup.style.display = 'none';
+                container.appendChild(popup);
+                popup.style.width = w;
+                popup.style.height = "22px";
+                popup.innerHTML = '<span>' + desc + '</span>';
+                popup.style.display = 'block';
+            } else {
+                popup = popup[0]
+            }
 
             popup.style.left = e.pageX + "px";
             popup.style.top = e.pageY + "px";
-            popup.style.width = w;
-            popup.style.height = "22px";
-            popup.innerHTML = '<span>' + desc + '</span>';
-            popup.style.display = 'block';
 
 
 /*            ctx.fillStyle = '#aaaaaa'
