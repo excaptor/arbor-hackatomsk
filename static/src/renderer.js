@@ -137,13 +137,13 @@
             var popup = $( "#popup" )
             
             if (nearest.distance > 50) {
-                if(popup) {
+                if(popup[0]) {
                     popup.remove()
                 }
                 return false
             }
 
-            if(!popup) {
+            if(!popup[0]) {
 
                 var desc = nearest.node.data.description
                 var name = nearest.node.name+"desc"
