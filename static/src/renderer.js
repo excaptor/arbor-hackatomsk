@@ -149,6 +149,7 @@
                 var name = nearest.node.name+"desc"
                 if (!desc) return false
                 var w = ctx.measureText(""+desc).width + 10
+                w = w > 100? 100 : w;
 
                 var container = $( "#twiceviz" )[0]
                 popup = $(document.createElement('div'))[0];
@@ -156,7 +157,7 @@
                 popup.style.position = 'absolute';
                 popup.style.display = 'none';
                 container.appendChild(popup);
-                popup.style.width = w > 100? 100 : w;
+                popup.style.width = w + "px";
                 popup.style.height = "22px";
                 popup.innerHTML = '<span>' + desc + '</span>';
                 popup.style.display = 'block';
