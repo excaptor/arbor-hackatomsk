@@ -159,6 +159,8 @@
                 container.appendChild(popup);
                 popup.style.width = w + "px";
                 popup.style.height = "22px";
+                popup.style.background = 'gray';
+                popup.style.opacity = '0.5';
                 popup.innerHTML = '<span>' + desc + '</span>';
                 popup.style.display = 'block';
             } else {
