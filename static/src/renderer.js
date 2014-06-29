@@ -152,7 +152,7 @@
 
                 var container = $( "#twiceviz" )[0]
                 popup = $(document.createElement('div'))[0];
-                popup.className = 'popup';
+                popup.id = 'popup';
                 popup.style.position = 'absolute';
                 popup.style.display = 'none';
                 container.appendChild(popup);
