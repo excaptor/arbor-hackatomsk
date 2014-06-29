@@ -156,7 +156,7 @@
                 popup.style.position = 'absolute';
                 popup.style.display = 'none';
                 container.appendChild(popup);
-                popup.style.width = w;
+                popup.style.width = w > 100? 100 : w;
                 popup.style.height = "22px";
                 popup.innerHTML = '<span>' + desc + '</span>';
                 popup.style.display = 'block';
