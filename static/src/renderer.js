@@ -127,6 +127,46 @@
         // set up a handler object that will initially listen for mousedowns then
         // for moves and mouseups while dragging
         var handler = {
+          moved:function(e){
+            var pos = $(canvas).offset();
+            var _mouseP = arbor.Point(e.pageX-pos.left, e.pageY-pos.top)
+            nearest = sys.nearest(_mouseP)
+
+            if (!nearest.node) return false
+            if (nearest.distance > 50) return false
+
+            var desc = nearest.node.data.description
+            var name = nearest.node.name+"desc"
+            if (!desc) return false
+            var w = ctx.measureText(""+desc).width + 10
+
+            var container = $( "#twiceviz" )[0]
+            var popup = $(document.createElement('div'))[0];
+            popup.className = 'popup';
+            popup.style.position = 'absolute';
+            popup.style.display = 'none';
+            container.appendChild(popup);
+
+            popup.style.left = e.pageX + "px";
+            popup.style.top = e.pageY + "px";
+            popup.style.width = w;
+            popup.style.height = "22px";
+            popup.innerHTML = '<span>' + desc + '</span>';
+            popup.style.display = 'block';
+
+
+/*            ctx.fillStyle = '#aaaaaa'
+            gfx.rect(e.pageX, e.pageY, w, 20, 4, {fill:ctx.fillStyle})
+            nodeBoxes[name] = [e.pageX, e.pageY, w, 22]
+            ctx.beginPath()
+            ctx.arc(e.pageX,e.pageY,w,0,2*Math.PI)
+            ctx.fill()
+            ctx.strokeStle = 'grey'
+            ctx.stroke()
+            ctx.font = '12px Helvetica'
+            ctx.fillStyle = 'black'
+            ctx.fillText(desc,e.pageX,e.pageY)
+*/          },
           clicked:function(e){
             var pos = $(canvas).offset();
             _mouseP = arbor.Point(e.pageX-pos.left, e.pageY-pos.top)
@@ -134,7 +174,8 @@
 
             if (dragged.node !== null) dragged.node.fixed = true
 
-            $(canvas).bind('mousemove', handler.dragged)
+            $(canvas).unbind('mousemove', handler.moved)
+			$(canvas).bind('mousemove', handler.dragged)
             $(window).bind('mouseup', handler.dropped)
 
             return false
@@ -160,12 +201,14 @@
             dragged = null
             selected = null
             $(canvas).unbind('mousemove', handler.dragged)
+			$(canvas).bind('mousemove', handler.moved)
             $(window).unbind('mouseup', handler.dropped)
             _mouseP = null
             return false
           }
         }
         $(canvas).mousedown(handler.clicked);
+		$(canvas).mousemove(handler.moved)
 
       }
 
